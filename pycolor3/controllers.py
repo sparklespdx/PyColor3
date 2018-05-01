@@ -11,7 +11,7 @@ def play_show(input):
         try:
             s.play_show(input)
         except (ValueError, TypeError) as e:
-            return jsonify({'error', str(e)}), 400
+            return jsonify({'error': str(e)}), 400
     return jsonify({'message': 'played show ' + str(input)}), 200
 
 
@@ -21,5 +21,5 @@ def brightness(input):
         try:
             s.set_brightness(input)
         except (ValueError, TypeError) as e:
-            return jsonify({'error', str(e)}), 400
+            return jsonify({'error': str(e)}), 400
     return jsonify({'message': 'set brightness level ' + str(input)}), 200

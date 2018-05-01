@@ -3,6 +3,7 @@
 
 
 import serial
+import logging
 
 
 class IColor3SerialError(Exception):
@@ -11,6 +12,7 @@ class IColor3SerialError(Exception):
 
 class SerialAPI:
     def __init__(self, config):
+        self.logger = logging.getLogger('pycolor3.SerialAPI')
         self.conn = serial.Serial()
 
         # Settings for iColor3
@@ -30,35 +32,42 @@ class SerialAPI:
     def __exit__(self, *args):
         self.conn.close()
 
+    def validate(self, input):
+
+        if not isinstance(input, int):
+            raise TypeError(input)
+
+        if input > 255 or input < 0:
+            raise ValueError('Invalid input value: ' + str(input))
+
+        return input
+
     def send_command(self, prefix, input):
 
         if not self.conn.is_open:
             raise IColor3SerialError('Serial connection is not open.')
 
-        if not isinstance(input, int):
-            raise TypeError
-
-        if input > 255 or input < 0:
-            raise ValueError('Invalid input value: ' + str(input))
-
-        command = prefix + input.upper()
+        command = prefix + hex(input)[2:].zfill(2).upper()
         self.conn.write(command.encode())
+        self.logger.debug('sent command to iColor3: ' + command)
 
         response = self.conn.read(5)
         if not response:
             return False
 
         response = response.decode()
+        self.logger.debug('iColor3 responded: ' + response)
+
         if response.replace('Y', 'X') != command:
             raise IColor3SerialError(response)
 
         return True
 
     def play_show(self, show_number):
-        return self.send_command("X04", hex(show_number)[2:].zfill(2))
+        return self.send_command("X04", self.validate(show_number))
 
     def turn_off(self):
         return self.send_command("X01", "00")
 
     def set_brightness(self, brightness):
-        return self.send_command("X02", hex(brightness)[2:].zfill(2))
+        return self.send_command("X02", self.validate(brightness))
