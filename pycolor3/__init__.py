@@ -7,7 +7,7 @@ import sys
 from flask import Flask
 
 from pycolor3.config import BaseConfig
-from pycolor3.controllers import icolorapp
+from pycolor3.routes import icolorapp
 
 dev = False
 if os.environ.get('ENVIRONMENT') == 'development':

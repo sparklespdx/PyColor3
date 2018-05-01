@@ -10,6 +10,10 @@ class IColor3SerialError(Exception):
     pass
 
 
+class IColor3Error(Exception):
+    pass
+
+
 class SerialAPI:
     def __init__(self, config):
         self.logger = logging.getLogger('pycolor3.SerialAPI')
@@ -59,7 +63,7 @@ class SerialAPI:
         self.logger.debug('iColor3 responded: ' + response)
 
         if response.replace('Y', 'X') != command:
-            raise IColor3SerialError(response)
+            raise IColor3Error(response)
 
         return True
 
