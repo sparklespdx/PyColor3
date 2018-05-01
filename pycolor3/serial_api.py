@@ -29,7 +29,7 @@ class SerialAPI:
 
     def send_command(self, prefix, input):
         if not self.conn.is_open:
-            raise IColor3SerialError
+            raise IColor3SerialError('Serial connection is not open.')
 
         command = prefix + input.upper()
         self.conn.write(command.encode())
