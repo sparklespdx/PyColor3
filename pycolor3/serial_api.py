@@ -29,6 +29,7 @@ class SerialAPI:
         self.conn.timeout = config['SERIAL_TIMEOUT']
         self.conn.port = config['SERIAL_DEVICE']
 
+    # context manager hoooks
     def __enter__(self):
         self.conn.open()
         return self
@@ -41,6 +42,7 @@ class SerialAPI:
         if not isinstance(input, int):
             raise TypeError(input)
 
+        # 1-255 are the only valid inputs for iColor3 serial params.
         if input > 255 or input < 0:
             raise ValueError('Invalid input value: ' + str(input))
 
@@ -62,6 +64,8 @@ class SerialAPI:
         response = response.decode()
         self.logger.debug('iColor3 responded: ' + response)
 
+        # If commands are successful it always responds back with the same command, switching X for Y.
+        #TODO: Handle common errors.
         if response.replace('Y', 'X') != command:
             raise IColor3Error(response)
 
