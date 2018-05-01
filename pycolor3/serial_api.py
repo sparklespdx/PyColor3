@@ -36,7 +36,7 @@ class SerialAPI:
             raise TypeError
 
         if input > 255 or input < 0:
-            raise IColor3SerialError('Invalid input value: ' + str(input))
+            raise ValueError('Invalid input value: ' + str(input))
 
         command = prefix + input.upper()
         self.conn.write(command.encode())
