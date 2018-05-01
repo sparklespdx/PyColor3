@@ -1,5 +1,4 @@
 # PyColor3: Flask API for controlling Phillips Color Kinetics IColor3
-# http://www.colorkinetics.com/support/userguides/iPlayer_3_UG.pdf
 
 import logging
 import os

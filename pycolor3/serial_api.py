@@ -1,5 +1,8 @@
+# Implementation of serial protocol for iColor3
+# http://www.colorkinetics.com/support/userguides/iPlayer_3_UG.pdf
+
+
 import serial
-from functools import wraps
 
 
 class IColor3SerialError(Exception):
