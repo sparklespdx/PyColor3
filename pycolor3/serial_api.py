@@ -75,7 +75,7 @@ class SerialAPI:
         return self.send_command("X04", self.validate(show_number))
 
     def turn_off(self):
-        return self.send_command("X01", "00")
+        return self.send_command("X01", 0)
 
     def set_brightness(self, brightness):
         return self.send_command("X02", self.validate(brightness))
