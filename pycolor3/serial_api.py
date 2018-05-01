@@ -28,8 +28,15 @@ class SerialAPI:
         self.conn.close()
 
     def send_command(self, prefix, input):
+
         if not self.conn.is_open:
             raise IColor3SerialError('Serial connection is not open.')
+
+        if not isinstance(input, int):
+            raise TypeError
+
+        if input > 255 or input < 0:
+            raise IColor3SerialError('Invalid input value: ' + str(input))
 
         command = prefix + input.upper()
         self.conn.write(command.encode())
@@ -37,9 +44,11 @@ class SerialAPI:
         response = self.conn.read(5)
         if not response:
             return False
+
         response = response.decode()
         if response.replace('Y', 'X') != command:
             raise IColor3SerialError(response)
+
         return True
 
     def play_show(self, show_number):
