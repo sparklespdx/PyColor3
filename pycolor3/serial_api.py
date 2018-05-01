@@ -31,7 +31,7 @@ class SerialAPI:
         if not self.conn.is_open:
             raise IColor3SerialError
 
-        command = prefix + input
+        command = prefix + input.upper()
         self.conn.write(command.encode())
 
         response = self.conn.read(5)
