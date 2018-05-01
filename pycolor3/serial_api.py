@@ -42,7 +42,7 @@ class SerialAPI:
         if not isinstance(input, int):
             raise TypeError(input)
 
-        # 1-255 are the only valid inputs for iColor3 serial params.
+        # 0-255 are the only valid inputs for iColor3 serial params.
         if input > 255 or input < 0:
             raise ValueError('Invalid input value: ' + str(input))
 
