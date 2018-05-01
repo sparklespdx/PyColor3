@@ -7,6 +7,7 @@ import sys
 from flask import Flask
 
 from pycolor3.config import BaseConfig
+from pycolor3.controllers import icolorapp
 
 dev = False
 if os.environ.get('ENVIRONMENT') == 'development':
@@ -26,9 +27,5 @@ logger.addHandler(handler)
 
 # Initialize application
 app = Flask(__name__)
-
-#blueprints = [samlapp, problemapp, hostapp, vulnapp, vulndefapp, miscapp]
-#for bp in blueprints:
-#    app.register_blueprint(bp)
-
+app.register_blueprint(icolorapp)
 app.config.from_object(BaseConfig())
