@@ -42,8 +42,9 @@ class SerialAPI:
         if not isinstance(input, int):
             raise TypeError(input)
 
-        # 0-255 are the only valid inputs for iColor3 serial params.
-        if input > 255 or input < 0:
+        # 1-255 are the only valid inputs for iColor3 serial params.
+        # The whole controller crashes if you send 0 to play_show...
+        if input > 255 or input < 1:
             raise ValueError('Invalid input value: ' + str(input))
 
         return input
@@ -65,7 +66,7 @@ class SerialAPI:
         self.logger.debug('iColor3 responded: ' + response)
 
         # If commands are successful it always responds back with the same command, switching X for Y.
-        #TODO: Handle common errors.
+        # TODO: Handle common errors.
         if response.replace('Y', 'X') != command:
             raise IColor3Error(response)
 
